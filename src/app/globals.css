@@ -1,17 +1,51 @@
 @import "tailwindcss";
 
+/*
+ * Hearth & Timber — design system
+ * Source: spec/life-rpg/designs/stitch_cozy_desk_rpg_interface/DESIGN.md
+ * Tactile illustrative skeuomorphism: parchment cards, 2px mahogany inking,
+ * hard directional shadows, pressable wooden bevels, golden lamplight glow.
+ */
+
 :root {
-  --background: #f7f1e8;
-  --foreground: #2b241c;
-  --surface: #fffaf2;
-  --surface-2: #f0e7d8;
-  --accent: #b8895a;
-  --accent-2: #8a6a4a;
-  --muted: #7a6f62;
-  --border: #e3d8c6;
-  --focus: #6b4f32;
-  --danger: #b04a3a;
-  --success: #4f7a5a;
+  /* --- Brand hues --- */
+  --honey: #d97724;          /* Honey Amber — primary CTAs, rewards */
+  --honey-deep: #9e4d0e;     /* pressed bevel under honey */
+  --sage: #58785e;           /* Soft Sage — completion, positive state */
+  --sage-deep: #38503c;
+  --terracotta: #c85a3d;     /* Terracotta Hearth — alerts, hearts */
+  --mahogany: #2b1e1a;       /* Deep Mahogany — ink, never pure black */
+  --parchment: #f9f4e8;      /* Parchment Cream — standard surface */
+  --linen: #f3ebd8;          /* indented ledger fields */
+  --indigo: #242746;         /* Twilight Indigo — night overlays */
+  --lamplight: #ffe89e;      /* Golden Lamplight — focal glow */
+  --tabletop: #201613;       /* Level 0 cedar tabletop */
+
+  /* --- Semantic roles (consumed by @theme and existing pages) --- */
+  --background: var(--parchment);
+  --foreground: var(--mahogany);
+  --surface: #fffaf0;
+  --surface-2: #efe4cc;
+  --accent: var(--honey);
+  --accent-2: var(--honey-deep);
+  --muted: #6c584b;
+  --border: var(--mahogany);
+  --focus: var(--honey);
+  --danger: #ba1a1a;
+  --success: var(--sage);
+
+  /* --- Shape --- */
+  --radius-sm: 0.25rem;
+  --radius: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  /* --- Elevation (hard paper stacking, not fuzzy blur) --- */
+  --ink: 2px;
+  --elev-1: 0 4px 0 var(--mahogany);
+  --elev-2: 0 6px 0 var(--mahogany), 0 8px 16px rgba(217, 119, 36, 0.15);
+  --inset-well: inset 0 2px 4px rgba(43, 30, 26, 0.12);
 }
 
 @theme inline {
@@ -26,23 +60,44 @@
   --color-focus: var(--focus);
   --color-danger: var(--danger);
   --color-success: var(--success);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-honey: var(--honey);
+  --color-honey-deep: var(--honey-deep);
+  --color-sage: var(--sage);
+  --color-sage-deep: var(--sage-deep);
+  --color-terracotta: var(--terracotta);
+  --color-mahogany: var(--mahogany);
+  --color-parchment: var(--parchment);
+  --color-linen: var(--linen);
+  --color-indigo: var(--indigo);
+  --color-lamplight: var(--lamplight);
+  --color-tabletop: var(--tabletop);
+
+  --font-display: var(--font-bricolage);
+  --font-sans: var(--font-quicksand);
+  --font-label: var(--font-epilogue);
+
+  --radius-xl: 1.5rem;
+
+  --spacing-gutter: 1.25rem;
+  --spacing-margin: 2rem;
 }
 
+/* Night cycle: the twilight window, not a cold dark mode. */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #1c1712;
-    --foreground: #efe6d8;
-    --surface: #26201a;
-    --surface-2: #30281f;
-    --accent: #c9a06a;
-    --accent-2: #a8845a;
-    --muted: #a89b8a;
-    --border: #3a3228;
-    --focus: #e0c9a6;
-    --danger: #d06a5a;
-    --success: #7aa888;
+    --background: #2a2036;
+    --foreground: #f6ecdc;
+    --surface: #352a44;
+    --surface-2: #42344f;
+    --muted: #c3b3a6;
+    --border: #16121f;
+    --mahogany: #16121f;
+    --parchment: #352a44;
+    --linen: #3d3050;
+    --tabletop: #1a1426;
+    --accent: #f0a055;
+    --accent-2: #b96c22;
   }
 }
 
@@ -52,15 +107,40 @@ html, body { height: 100%; }
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-quicksand), ui-rounded, system-ui, sans-serif;
+  font-weight: 500;
   margin: 0;
   -webkit-font-smoothing: antialiased;
 }
 
+/* --- Typography scale --- */
+.h1, .h2, .h3 {
+  font-family: var(--font-bricolage), var(--font-quicksand), system-ui, sans-serif;
+  color: var(--foreground);
+}
+.h1 { font-size: 2rem; font-weight: 800; line-height: 1.18; letter-spacing: -0.01em; }
+.h2 { font-size: 1.5rem; font-weight: 700; line-height: 1.33; }
+.h3 { font-size: 1.25rem; font-weight: 600; line-height: 1.4; }
+@media (min-width: 768px) {
+  .h1 { font-size: 2.75rem; line-height: 1.18; letter-spacing: -0.02em; }
+}
+
+.label {
+  font-family: var(--font-epilogue), system-ui, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.38;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.muted { color: var(--muted); font-size: 0.875rem; }
+
+/* Focus: a diffused warm amber halo, never an invisible outline. */
 a:focus-visible, button:focus-visible, input:focus-visible,
-select:focus-visible, textarea:focus-visible {
-  outline: 2px solid var(--focus);
+select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
+  outline: 3px solid var(--honey);
   outline-offset: 2px;
+  border-radius: var(--radius);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -72,32 +152,131 @@ select:focus-visible, textarea:focus-visible {
   }
 }
 
+/* --- Buttons: chunky wooden switches with a collapsing bevel --- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-  border-radius: 0.625rem; padding: 0.5rem 1rem; font-size: 0.875rem; font-weight: 500;
-  transition: background-color 120ms ease, border-color 120ms ease, transform 80ms ease;
-  cursor: pointer; border: 1px solid var(--border);
+  font-family: var(--font-epilogue), system-ui, sans-serif;
+  font-size: 0.9375rem; font-weight: 700; letter-spacing: 0.02em;
+  min-height: 44px; padding: 0.5rem 1.125rem;
+  border: var(--ink) solid var(--mahogany);
+  border-radius: var(--radius-md);
   background: var(--surface); color: var(--foreground);
+  box-shadow: 0 4px 0 #c0ab8a;
+  cursor: pointer;
+  transition: transform 80ms ease, box-shadow 80ms ease, background-color 120ms ease;
 }
 .btn:hover { background: var(--surface-2); }
-.btn:active { transform: translateY(1px); }
-.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-.btn-primary:hover { background: var(--accent-2); border-color: var(--accent-2); }
-.btn-danger { background: var(--danger); color: #fff; border-color: var(--danger); }
+.btn:active { transform: translateY(4px); box-shadow: 0 0 0 var(--mahogany); }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
 
+.btn-primary {
+  background: var(--honey); color: var(--parchment);
+  box-shadow: 0 4px 0 var(--honey-deep);
+}
+.btn-primary:hover { background: #e5873a; }
+
+.btn-secondary {
+  background: var(--sage); color: var(--parchment);
+  box-shadow: 0 4px 0 var(--sage-deep);
+}
+.btn-secondary:hover { background: #66886c; }
+
+.btn-danger {
+  background: var(--danger); color: #fff;
+  box-shadow: 0 4px 0 #7a1010;
+}
+
+/* Parchment ribbon: a quiet tertiary action. */
+.btn-ghost {
+  background: transparent; border-color: transparent; box-shadow: none;
+  color: var(--foreground); text-decoration: underline;
+  text-decoration-style: dashed; text-underline-offset: 4px;
+}
+.btn-ghost:hover { background: color-mix(in srgb, var(--honey) 14%, transparent); }
+.btn-ghost:active { transform: none; box-shadow: none; }
+
+/* --- Cards: thick cardstock, inked edge, hard directional shadow --- */
 .card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 0.875rem; padding: 1.25rem;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  background: var(--parchment);
+  border: var(--ink) solid var(--mahogany);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--elev-1);
+}
+.card-raised { box-shadow: var(--elev-2); }
+
+/* A debossed well for nested content: list rows, item slots. */
+.well {
+  background: var(--linen);
+  border: var(--ink) solid var(--mahogany);
+  border-radius: var(--radius-md);
+  box-shadow: var(--inset-well);
 }
 
+/* The tabletop the parchment sits on. */
+.tabletop {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.08) 0 2px,
+      transparent 2px 26px
+    ),
+    linear-gradient(160deg, #3a2419, var(--tabletop));
+  border: 3px solid var(--mahogany);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--elev-2);
+}
+
+/* --- Inputs: indented ledger spaces --- */
 .input {
-  border: 1px solid var(--border); border-radius: 0.625rem;
-  padding: 0.5rem 0.75rem; background: var(--surface);
-  color: var(--foreground); font-size: 0.875rem;
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-size: 1rem; font-weight: 500;
+  min-height: 44px; padding: 0.5rem 0.875rem;
+  background: var(--linen); color: var(--foreground);
+  border: var(--ink) solid var(--mahogany);
+  border-radius: var(--radius-md);
+  box-shadow: var(--inset-well);
 }
-.input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); }
+.input:focus {
+  outline: none;
+  box-shadow: var(--inset-well), 0 0 0 3px rgba(217, 119, 36, 0.4);
+}
 
-.h1 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.01em; }
-.h2 { font-size: 1.25rem; font-weight: 600; }
-.muted { color: var(--muted); font-size: 0.875rem; }
+/* --- Chips: ribbon bookmarks / seed packets --- */
+.chip {
+  display: inline-flex; align-items: center; gap: 0.375rem;
+  font-family: var(--font-epilogue), system-ui, sans-serif;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  border: 1.5px dashed var(--mahogany);
+  background: var(--surface); color: var(--foreground);
+}
+.chip-active {
+  border-style: solid;
+  background: #c5e9c9; color: var(--sage-deep);
+}
+.chip-honey { border-style: solid; background: var(--lamplight); color: #713700; }
+.chip-terracotta { border-style: solid; background: #ffdbd2; color: #82270e; }
+
+/* Resource counters in the HUD rail. */
+.plaque {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  background: var(--surface);
+  border: var(--ink) solid var(--mahogany);
+  border-radius: var(--radius-md);
+  box-shadow: 0 3px 0 var(--mahogany);
+}
+
+/* --- Motion: brief, unobtrusive, never blocking --- */
+@keyframes floatBob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(1.5deg); }
+}
+@keyframes lampGlow {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+.float-bob { animation: floatBob 5s ease-in-out infinite; }
+.lamp-glow { animation: lampGlow 4s ease-in-out infinite; }

@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700;800&amp;family=Epilogue:wght@600;700;800;900&amp;family=Fredoka:wght@400;500;600;700&amp;family=Quicksand:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin:0; padding:0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top:0 !important; }
+      main > :last-child { margin-bottom:0 !important; }
+    }
+    ::-webkit-scrollbar { display:none; }
+
+    /* Cartoon Game Style Custom Animations & Effects */
+    @keyframes floatBob {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-7px) rotate(1.5deg); }
+    }
+    @keyframes earWiggle {
+      0%, 100% { transform: rotate(0deg); }
+      20% { transform: rotate(-8deg); }
+      40% { transform: rotate(10deg); }
+      60% { transform: rotate(-4deg); }
+      80% { transform: rotate(6deg); }
+    }
+    @keyframes heartFloatUp {
+      0% { opacity: 0; transform: translateY(0) scale(0.6); }
+      30% { opacity: 1; transform: translateY(-16px) scale(1.3) rotate(-8deg); }
+      100% { opacity: 0; transform: translateY(-50px) scale(1) rotate(12deg); }
+    }
+    @keyframes comicPopNumber {
+      0% { opacity: 0; transform: translateY(10px) scale(0.5); }
+      40% { opacity: 1; transform: translateY(-14px) scale(1.25); }
+      75% { opacity: 1; transform: translateY(-24px) scale(1.1); }
+      100% { opacity: 0; transform: translateY(-40px) scale(0.9); }
+    }
+    @keyframes bubbleJiggle {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08) translateY(-2px); }
+    }
+    @keyframes potionLiquid {
+      0%, 100% { transform: scaleY(1) translateY(0); }
+      50% { transform: scaleY(1.08) translateY(-2px); }
+    }
+    @keyframes lampRays {
+      0%, 100% { opacity: 0.85; transform: scale(1) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1.04) rotate(2deg); }
+    }
+    @keyframes turnKeySpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes starTwinkle {
+      0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1.2) rotate(45deg); }
+    }
+
+    .animate-float-bob { animation: floatBob 3.6s ease-in-out infinite; }
+    .animate-ear-wiggle { animation: earWiggle 4s ease-in-out infinite; }
+    .animate-bubble-jiggle { animation: bubbleJiggle 2.5s ease-in-out infinite; }
+    .animate-lamp-rays { animation: lampRays 4s ease-in-out infinite; }
+    .animate-star-twinkle { animation: starTwinkle 3s ease-in-out infinite; }
+
+    /* Cartoon Wood & HUD Outlines */
+    .game-bubble-card {
+      border: 3.5px solid #2b180d;
+      box-shadow: 0 6px 0 #2b180d, 0 12px 24px rgba(43,24,13,0.22);
+    }
+    .game-bubble-card-sm {
+      border: 2.5px solid #2b180d;
+      box-shadow: 0 4px 0 #2b180d;
+    }
+    .game-bubble-btn {
+      border: 2.5px solid #2b180d;
+      box-shadow: 0 4px 0 #2b180d;
+      transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .game-bubble-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 0 #2b180d;
+    }
+    .game-bubble-btn:active {
+      transform: translateY(3px) scale(0.97);
+      box-shadow: 0 1px 0 #2b180d;
+    }
+
+    /* Desk stylized wood grain repeat */
+    .desk-woodgrain {
+      background-color: #61341c;
+      background-image: 
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 24px, transparent 24px, transparent 48px),
+        linear-gradient(to bottom, #743f23 0%, #572e18 40%, #3e1f0e 100%);
+    }
+
+    /* CRT scanline */
+    .crt-screen-overlay {
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.04));
+      background-size: 100% 3px, 4px 100%;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary": "#46664d",
+            "tertiary-fixed": "#ffdbd2",
+            "surface-container-low": "#fff1ed",
+            "inverse-on-surface": "#ffede8",
+            "tertiary-container": "#bf5337",
+            "on-secondary-fixed-variant": "#2f4d36",
+            "primary-fixed": "#ffdcc6",
+            "surface-dim": "#edd5ce",
+            "secondary-fixed": "#c8ebcc",
+            "outline": "#887365",
+            "on-primary-fixed": "#301400",
+            "on-error": "#ffffff",
+            "on-tertiary-fixed": "#3c0800",
+            "primary-fixed-dim": "#ffb785",
+            "error-container": "#ffdad6",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-high": "#fbe3dc",
+            "background": "#fff8f6",
+            "secondary-container": "#c5e9c9",
+            "on-error-container": "#93000a",
+            "tertiary-fixed-dim": "#ffb4a1",
+            "on-primary-container": "#fffbff",
+            "on-primary": "#ffffff",
+            "on-secondary-container": "#4a6a51",
+            "on-surface-variant": "#554337",
+            "on-secondary-fixed": "#02210e",
+            "on-background": "#251915",
+            "outline-variant": "#dbc1b2",
+            "surface-tint": "#954a00",
+            "tertiary": "#9f3c21",
+            "secondary-fixed-dim": "#accfb1",
+            "on-surface": "#251915",
+            "primary-container": "#b65c01",
+            "inverse-surface": "#3b2d29",
+            "on-tertiary": "#ffffff",
+            "error": "#ba1a1a",
+            "inverse-primary": "#ffb785",
+            "surface-bright": "#fff8f6",
+            "surface": "#fff8f6",
+            "surface-container-highest": "#f5ddd7",
+            "on-secondary": "#ffffff",
+            "on-primary-fixed-variant": "#713700",
+            "surface-variant": "#f5ddd7",
+            "on-tertiary-container": "#fffbff",
+            "on-tertiary-fixed-variant": "#82270e",
+            "primary": "#914800",
+            "surface-container": "#ffe9e3"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1.25rem",
+            "3xl": "1.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "margin": "2rem",
+            "space-lg": "2rem",
+            "gutter-mobile": "0.75rem",
+            "space-xs": "0.375rem",
+            "space-sm": "0.75rem",
+            "gutter": "1.25rem",
+            "space-xl": "3rem",
+            "margin-mobile": "1rem",
+            "space-md": "1.25rem"
+          },
+          fontFamily: {
+            "body-lg": ["Fredoka", "Quicksand", "sans-serif"],
+            "headline-md": ["Bricolage Grotesque", "sans-serif"],
+            "headline-lg-mobile": ["Bricolage Grotesque", "sans-serif"],
+            "headline-xl-mobile": ["Bricolage Grotesque", "sans-serif"],
+            "body-sm": ["Fredoka", "Quicksand", "sans-serif"],
+            "label-lg": ["Epilogue", "sans-serif"],
+            "label-sm": ["Epilogue", "sans-serif"],
+            "headline-sm": ["Bricolage Grotesque", "sans-serif"],
+            "label-md": ["Epilogue", "sans-serif"],
+            "headline-xl": ["Bricolage Grotesque", "sans-serif"],
+            "body-md": ["Fredoka", "Quicksand", "sans-serif"],
+            "headline-lg": ["Bricolage Grotesque", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-[#2a1b14] text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen relative overflow-x-hidden font-body-md">
+<!-- ========================================== -->
+<!-- CARTOON GAME HUD HEADER (ANIMAL CROSSING RPG) -->
+<!-- ========================================== -->
+<header class="fixed top-0 w-full z-50 bg-[#fff5ee]/95 backdrop-blur-md border-b-[3.5px] border-[#2b180d] shadow-[0_4px_12px_rgba(43,24,13,0.15)]">
+<div class="h-20 w-full px-space-md flex items-center justify-between gap-space-sm max-w-7xl mx-auto">
+<!-- Player Profile & RPG Stats Pill -->
+<div class="flex items-center gap-3">
+<!-- Sprout Badge & Level (Diegetic Game Avatar Pill) -->
+<div class="bg-[#ffefe5] border-[2.5px] border-[#2b180d] px-3 py-1.5 rounded-2xl flex items-center gap-2.5 shadow-[0_3px_0_#2b180d] hover:rotate-1 transition-transform cursor-pointer">
+<div class="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-primary-container border-2 border-[#2b180d] flex items-center justify-center text-white shadow-inner animate-bubble-jiggle">
+<span class="material-symbols-outlined text-[24px]">local_florist</span>
+<span class="absolute -top-1.5 -right-1.5 bg-[#ff4d6d] text-white text-[9px] font-bold px-1 rounded-full border border-[#2b180d]">LV7</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1">
+<span class="font-headline-sm text-sm text-[#2b180d] font-extrabold tracking-tight">Sprout</span>
+<span class="text-[10px] font-bold bg-[#ffd7ba] text-primary px-1.5 py-0.2 rounded-md border border-primary/30 uppercase">Wanderer</span>
+</div>
+<!-- Segmented Mini Level Bar -->
+<div class="w-24 h-2 bg-[#ecd3c5] rounded-full overflow-hidden border border-[#2b180d]/40 flex mt-0.5">
+<div class="w-3/4 bg-primary rounded-full transition-all duration-300"></div>
+</div>
+</div>
+</div>
+<!-- Acorn Bank (Animated Cartoon Coin Counter) -->
+<div class="hidden sm:flex items-center bg-[#fdf0d5] border-[2.5px] border-[#2b180d] px-3 py-1.5 rounded-2xl shadow-[0_3px_0_#2b180d] gap-2">
+<div class="w-8 h-8 rounded-full bg-[#f4a261] border-2 border-[#2b180d] flex items-center justify-center shadow-inner group">
+<span class="material-symbols-outlined text-[#431407] text-[20px] transition-transform group-hover:scale-125" style="font-variation-settings: 'FILL' 1;">nutrition</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-[#784e2a] font-black uppercase tracking-wider">Acorn Bank</span>
+<span class="font-headline-sm text-base text-[#2b180d] font-black flex items-center gap-1" id="hud-acorn-counter">
+<span>420</span>
+<span class="text-[11px] text-[#e76f51] font-bold">🌰</span>
+</span>
+</div>
+</div>
+<!-- Vitality Heart Containers (Studio Ghibli / Zelda Bouncy Hearts) -->
+<div class="hidden md:flex items-center bg-[#ffe5ec] border-[2.5px] border-[#2b180d] px-3 py-1.5 rounded-2xl shadow-[0_3px_0_#2b180d] gap-2">
+<div class="flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[#e63946] text-[18px] animate-pulse" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="material-symbols-outlined text-[#e63946] text-[18px] animate-pulse" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="material-symbols-outlined text-[#e63946] text-[18px] animate-pulse" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="material-symbols-outlined text-[#e63946] text-[18px] animate-pulse" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="material-symbols-outlined text-[#e63946] text-[18px] animate-pulse" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-[#9b2226] font-extrabold uppercase">Vitality</span>
+<span class="font-label-lg text-xs font-black text-[#9b2226]">Full Hearts</span>
+</div>
+</div>
+</div>
+<!-- Navigation Tabs (Game Inventory & Hub selector) -->
+<nav class="hidden lg:flex items-center gap-1.5 bg-[#f5e6d3] border-[2.5px] border-[#2b180d] p-1.5 rounded-2xl shadow-[0_3px_0_#2b180d]" data-active-classes="bg-primary-container text-on-primary-container font-label-md text-label-md rounded-lg">
+<a aria-current="page" class="px-3.5 py-1.5 bg-[#b65c01] text-white border-2 border-[#2b180d] font-label-md text-xs font-black rounded-xl shadow-[0_2px_0_#2b180d] transition-transform active:translate-y-0.5" data-path="living-desk-room" href="#">
+          🪵 Desk Chamber
+        </a>
+<a class="px-3 py-1.5 text-[#554337] hover:bg-[#ebd3bd] font-label-md text-xs font-bold rounded-xl transition-colors" data-path="almanac-and-journal" href="#">
+          📖 Field Almanac
+        </a>
+<a class="px-3 py-1.5 text-[#554337] hover:bg-[#ebd3bd] font-label-md text-xs font-bold rounded-xl transition-colors" data-path="apothecary-and-crafting" href="#">
+          🧪 Botanical Craft
+        </a>
+<a class="px-3 py-1.5 text-[#554337] hover:bg-[#ebd3bd] font-label-md text-xs font-bold rounded-xl transition-colors" data-path="companion-sanctuary" href="#">
+          🐾 Companions
+        </a>
+<a class="px-3 py-1.5 text-[#554337] hover:bg-[#ebd3bd] font-label-md text-xs font-bold rounded-xl transition-colors" data-path="cozy-audio-parlor" href="#">
+          📻 Gramophone
+        </a>
+</nav>
+<!-- Right HUD Controls: Day/Night Cycle, Music Cassette, Player -->
+<div class="flex items-center gap-2">
+<div class="bg-[#e9d8a6] border-[2.5px] border-[#2b180d] px-3 py-1 rounded-2xl flex items-center gap-2 shadow-[0_3px_0_#2b180d]">
+<span class="material-symbols-outlined text-[#ee9b00] text-[20px] animate-spin" style="animation-duration: 16s;">wb_twilight</span>
+<div class="flex flex-col text-right">
+<span class="font-label-sm text-[9px] text-[#634816] font-black uppercase">Cycle: Dusk</span>
+<span class="font-label-md text-xs font-black text-[#2b180d]">06:42 PM</span>
+</div>
+</div>
+<div class="hidden sm:flex items-center bg-[#d8f3dc] border-[2.5px] border-[#2b180d] text-[#1b4332] px-3 py-1.5 rounded-2xl gap-1.5 shadow-[0_3px_0_#2b180d] animate-bubble-jiggle">
+<span class="material-symbols-outlined text-[18px] text-[#2d6a4f]">music_note</span>
+<span class="font-label-sm text-xs font-bold">Rainy Window Lofi</span>
+</div>
+<button class="w-10 h-10 rounded-2xl bg-[#ffb703] border-[2.5px] border-[#2b180d] flex items-center justify-center shadow-[0_3px_0_#2b180d] active:translate-y-1 transition-transform">
+<span class="material-symbols-outlined text-[#432808] text-[22px]">backpack</span>
+</button>
+</div>
+</div>
+</header>
+<!-- ========================================== -->
+<!-- MAIN STAGE / COZY LIVING DESK GAME ROOM -->
+<!-- ========================================== -->
+<main class="w-full pt-24 min-h-screen relative pb-16 flex flex-col items-center">
+<!-- Background Cartoon Sparkles & Starlight Motes -->
+<div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
+<div class="absolute top-28 left-12 text-[#ffea85] text-xl animate-star-twinkle">✦</div>
+<div class="absolute top-44 right-20 text-[#ffea85] text-2xl animate-star-twinkle" style="animation-delay: 1.2s;">✧</div>
+<div class="absolute top-80 left-1/4 text-[#a8dadc] text-lg animate-star-twinkle" style="animation-delay: 2s;">✦</div>
+<div class="absolute top-96 right-1/3 text-[#f4a261] text-xl animate-star-twinkle" style="animation-delay: 0.8s;">★</div>
+</div>
+<div class="w-full max-w-7xl px-3 md:px-6 relative z-10 flex flex-col gap-5">
+<!-- TOP DIEGETIC ROOM FRAME (COZY DUSK WALL, RAINY BAY WINDOW & QUEST NOTIFICATION) -->
+<div class="relative w-full rounded-3xl bg-gradient-to-b from-[#402619] via-[#331c11] to-[#24130a] border-[3.5px] border-[#1b0d06] p-4 md:p-6 shadow-[0_8px_0_#1b0d06] overflow-hidden">
+<!-- Wallpaper Cartoon Damask / Ivy Swags -->
+<div class="absolute inset-0 opacity-15 bg-[radial-gradient(#ffc89b_1.5px,transparent_1.5px)] [background-size:24px_24px] pointer-events-none"></div>
+<!-- RAINY BAY WINDOW ARCHETYPE (CARTOON GHIBLI FRAME) -->
+<div class="absolute top-3 left-6 w-48 h-60 rounded-t-full bg-gradient-to-b from-[#1b263b] to-[#0d1b2a] border-[3px] border-[#59341d] shadow-[inset_0_4px_16px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col items-center justify-between p-3 pointer-events-auto group">
+<!-- Animated rain streaks -->
+<div class="absolute inset-0 opacity-35 bg-[linear-gradient(120deg,transparent_45%,rgba(255,255,255,0.7)_50%,transparent_55%)] bg-[length:90px_90px] animate-[pulse_2.2s_ease-in-out_infinite] pointer-events-none"></div>
+<!-- Stars / Crescent Moon in Window -->
+<div class="relative z-10 flex items-center justify-between w-full px-1 pt-1">
+<span class="text-xs">🌙</span>
+<span class="font-label-sm text-[9px] text-[#ffddc2] font-black uppercase tracking-wider bg-[#2b180d]/60 px-2 py-0.5 rounded-full border border-primary/40">Glimmer Glen</span>
+<span class="text-xs animate-bounce">💧</span>
+</div>
+<!-- Cute Fluttering Checkered Linen Curtains -->
+<div class="relative z-10 w-full flex justify-between items-end pb-1 pointer-events-none">
+<div class="w-10 h-32 bg-[#ffccd5] border-r-2 border-b-2 border-[#2b180d] rounded-r-2xl transform origin-top -rotate-3 transition-transform group-hover:rotate-1"></div>
+<div class="w-10 h-32 bg-[#ffccd5] border-l-2 border-b-2 border-[#2b180d] rounded-l-2xl transform origin-top rotate-3 transition-transform group-hover:-rotate-1"></div>
+</div>
+</div>
+<!-- TOP BAR: DAILY HEARTH QUESTS & ROOM ATMOSPHERE TOYS -->
+<div class="relative z-20 flex flex-wrap items-center justify-between gap-4 pl-0 md:pl-56">
+<!-- Daily Hearth Quests Bubble -->
+<div class="flex items-center gap-3 bg-[#fff8f0] border-[3px] border-[#2b180d] px-4 py-2.5 rounded-2xl shadow-[0_4px_0_#2b180d] animate-float-bob">
+<div class="w-10 h-10 rounded-xl bg-[#e76f51] border-2 border-[#2b180d] flex items-center justify-center text-white shadow-inner">
+<span class="material-symbols-outlined text-[24px]">verified</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-xs font-black text-primary tracking-wide uppercase">Daily Hearth Quests</span>
+<span class="font-label-sm text-[11px] font-black text-[#2b180d] bg-[#ffd7ba] px-2 py-0.5 rounded-full border border-[#2b180d]" id="quest-count">3 / 5 Complete</span>
+</div>
+<div class="w-48 h-3.5 bg-[#ecd3c5] rounded-full border-2 border-[#2b180d] overflow-hidden mt-1 p-0.5 shadow-inner">
+<div class="h-full bg-gradient-to-r from-[#f4a261] to-[#e76f51] rounded-full transition-all duration-500" id="quest-bar" style="width: 60%;"></div>
+</div>
+</div>
+</div>
+<!-- Room Controls: Lamp Switch, Decor Chest, SFX Toggle -->
+<div class="flex items-center gap-2.5 flex-wrap">
+<!-- Cartoon Gooseneck Lamp Toggle -->
+<button class="game-bubble-btn flex items-center gap-2 bg-[#ffea00] text-[#2b180d] px-3.5 py-2 rounded-2xl font-black text-xs" id="lamp-toggle-btn">
+<span class="material-symbols-outlined text-[20px] text-[#d97706]" id="lamp-status-icon" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<span id="lamp-status-text">Lamp: Golden Radiance</span>
+</button>
+<!-- Room Decor Shelf Selector Dropdown -->
+<div class="relative group">
+<button class="game-bubble-btn flex items-center gap-1.5 bg-[#f4ebd0] text-[#2b180d] px-3.5 py-2 rounded-2xl font-black text-xs">
+<span class="material-symbols-outlined text-[#2a9d8f] text-[20px]">palette</span>
+<span>Decor Toys</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<div class="absolute right-0 mt-2 w-56 bg-[#fffbf0] border-[3px] border-[#2b180d] p-2.5 rounded-2xl shadow-[0_6px_0_#2b180d] hidden group-hover:flex flex-col gap-1.5 z-50">
+<button class="flex items-center justify-between p-2 rounded-xl bg-[#faedcd] hover:bg-[#fefae0] border border-[#2b180d]/30 text-left font-bold text-xs" onclick="toggleDecor('kettle')">
+<span>🫖 Brass Kettle</span>
+<span class="text-[10px] bg-[#d8f3dc] text-[#1b4332] px-2 py-0.5 rounded-full border border-[#2b180d]" id="decor-kettle-badge">Active</span>
+</button>
+<button class="flex items-center justify-between p-2 rounded-xl bg-[#faedcd] hover:bg-[#fefae0] border border-[#2b180d]/30 text-left font-bold text-xs" onclick="toggleDecor('terrarium')">
+<span>🌱 Moss Terrarium</span>
+<span class="text-[10px] bg-[#ffe5ec] text-[#9b2226] px-2 py-0.5 rounded-full border border-[#2b180d]" id="decor-terrarium-badge">Hidden</span>
+</button>
+<button class="flex items-center justify-between p-2 rounded-xl bg-[#faedcd] hover:bg-[#fefae0] border border-[#2b180d]/30 text-left font-bold text-xs" onclick="toggleDecor('globe')">
+<span>✨ Star Astrolabe</span>
+<span class="text-[10px] bg-[#d8f3dc] text-[#1b4332] px-2 py-0.5 rounded-full border border-[#2b180d]" id="decor-globe-badge">Active</span>
+</button>
+</div>
+</div>
+<!-- SFX Chime Toggle Button -->
+<button class="game-bubble-btn w-10 h-10 rounded-2xl bg-[#caf0f8] flex items-center justify-center text-[#03045e]" id="sfx-toggle" onclick="toggleSfx()">
+<span class="material-symbols-outlined text-[20px]" id="sfx-icon">volume_up</span>
+</button>
+</div>
+</div>
+<!-- COLLECTIBLE WALL SHELF: TROPHIES, BUBBLING POTIONS & BADGES -->
+<div class="relative z-10 w-full mt-4 bg-[#4a2e1d]/90 border-[3px] border-[#2b180d] p-3 rounded-2xl shadow-[0_5px_0_#1b0d06] flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-2 pl-2">
+<span class="material-symbols-outlined text-[#ffd166] text-[24px]">shelves</span>
+<span class="font-headline-sm text-sm text-[#ffeedd] font-black uppercase tracking-wider">Hearth Curios &amp; Honors</span>
+</div>
+<div class="flex items-center gap-3 overflow-x-auto py-1 pr-1">
+<!-- Potion Bottle with bubbling liquid animation -->
+<div class="flex items-center gap-2 bg-[#fff1e6] border-2 border-[#2b180d] px-3 py-1 rounded-xl shadow-[0_2px_0_#2b180d] cursor-pointer hover:scale-105 transition-transform" onclick="openModal('trophy-modal')">
+<div class="relative w-6 h-7 rounded-b-md bg-[#06d6a0] border border-[#2b180d] overflow-hidden flex items-end">
+<div class="w-full h-4 bg-[#70e000] animate-bubble-jiggle"></div>
+</div>
+<div class="flex flex-col text-left">
+<span class="font-label-sm text-[11px] font-black text-[#2b180d]">Sun Elixir</span>
+<span class="font-body-sm text-[10px] text-[#2a9d8f] font-bold">Bubbling</span>
+</div>
+</div>
+<!-- Golden Acorn Trophy (Interactive) -->
+<div class="flex items-center gap-2 bg-[#fff1e6] border-2 border-[#2b180d] px-3 py-1 rounded-xl shadow-[0_2px_0_#2b180d] cursor-pointer hover:scale-105 transition-transform" onclick="openModal('trophy-modal')">
+<span class="material-symbols-outlined text-[#f39c12] text-[24px] animate-bounce" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<div class="flex flex-col text-left">
+<span class="font-label-sm text-[11px] font-black text-[#2b180d]">Master Herbalist</span>
+<span class="font-body-sm text-[10px] text-primary font-bold">Rank II Gold ★</span>
+</div>
+</div>
+<!-- Sprout Tender Badge -->
+<div class="flex items-center gap-2 bg-[#fff1e6] border-2 border-[#2b180d] px-3 py-1 rounded-xl shadow-[0_2px_0_#2b180d] cursor-pointer hover:scale-105 transition-transform" onclick="openModal('trophy-modal')">
+<span class="material-symbols-outlined text-[#2a9d8f] text-[22px]">psychiatry</span>
+<div class="flex flex-col text-left">
+<span class="font-label-sm text-[11px] font-black text-[#2b180d]">Quiet Haven</span>
+<span class="font-body-sm text-[10px] text-[#2a9d8f] font-bold">Unlocked</span>
+</div>
+</div>
+<!-- Locked Badge Slot -->
+<div class="flex items-center gap-2 bg-[#311f15] border-2 border-[#2b180d] px-3 py-1 rounded-xl cursor-pointer opacity-70 hover:opacity-100 transition-opacity" onclick="openModal('trophy-modal')">
+<span class="material-symbols-outlined text-[#d4a373] text-[18px]">lock</span>
+<span class="font-label-sm text-[10px] font-bold text-[#e6ccb2]">Disc IV (Need 500 XP)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ======================================================== -->
+<!-- THE LIVING WOODEN DESK ENVIRONMENT (DIEGETIC CARTOON MAIN STAGE) -->
+<!-- ======================================================== -->
+<div class="relative w-full rounded-3xl desk-woodgrain border-[4px] border-[#231208] p-5 md:p-8 shadow-[0_12px_0_#140a05] flex flex-col justify-between transition-all duration-300" id="desk-board">
+<!-- Brass Desk Corner Rivets with Shiny Highlights -->
+<div class="absolute top-3 left-3 w-7 h-7 rounded-full bg-[#f4a261] border-2 border-[#2b180d] shadow-inner flex items-center justify-center pointer-events-none">
+<div class="w-2.5 h-2.5 rounded-full bg-[#fefae0]"></div>
+</div>
+<div class="absolute top-3 right-3 w-7 h-7 rounded-full bg-[#f4a261] border-2 border-[#2b180d] shadow-inner flex items-center justify-center pointer-events-none">
+<div class="w-2.5 h-2.5 rounded-full bg-[#fefae0]"></div>
+</div>
+<!-- Ambient Warm Lamp Radial Ray Overlay (Toggles with lamp switch) -->
+<div class="absolute -top-10 -right-10 w-96 h-96 rounded-full bg-[#ffea00]/15 blur-3xl pointer-events-none animate-lamp-rays" id="lamp-glow-overlay"></div>
+<!-- ============================================== -->
+<!-- DESK OBJECTS GRID (TOY-LIKE DIEGETIC INTERFACES) -->
+<!-- ============================================== -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10 items-stretch">
+<!-- OBJECT 1: CHUNKY WIREBOUND CALENDAR (Cols 1-3) -->
+<div class="lg:col-span-3 bg-[#fff9f0] border-[3.5px] border-[#2b180d] p-5 rounded-3xl shadow-[0_6px_0_#2b180d] cursor-pointer group transform hover:-translate-y-1.5 transition-all duration-200 relative overflow-hidden flex flex-col justify-between" onclick="openModal('calendar-modal')">
+<!-- Cartoon Spiral Binder Rings -->
+<div class="absolute -top-2 left-0 right-0 flex justify-around px-4 pointer-events-none">
+<div class="w-3.5 h-6 bg-[#cbd5e1] border-2 border-[#2b180d] rounded-full shadow-md"></div>
+<div class="w-3.5 h-6 bg-[#cbd5e1] border-2 border-[#2b180d] rounded-full shadow-md"></div>
+<div class="w-3.5 h-6 bg-[#cbd5e1] border-2 border-[#2b180d] rounded-full shadow-md"></div>
+<div class="w-3.5 h-6 bg-[#cbd5e1] border-2 border-[#2b180d] rounded-full shadow-md"></div>
+</div>
+<div class="mt-2 pt-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-[10px] font-black uppercase text-[#e76f51] tracking-wider bg-[#ffe5d9] px-2 py-0.5 rounded-lg border border-[#2b180d]/30">Autumn Cycle</span>
+<!-- Weather Sticker Badge -->
+<div class="flex items-center gap-1 bg-[#d8f3dc] border border-[#2b180d] px-2 py-0.5 rounded-full shadow-sm">
+<span>⛅</span>
+<span class="text-[9px] font-black text-[#1b4332]">BREEZY</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2 mt-2">
+<span class="font-headline-xl text-5xl font-black text-[#2b180d] tracking-tight">14</span>
+<span class="font-headline-sm text-xl font-black text-primary">OCTOBER</span>
+</div>
+</div>
+<!-- Calendar Schedule Sticky Note -->
+<div class="my-3 p-3 bg-[#fff3b0] border-2 border-[#2b180d] rounded-2xl shadow-[0_3px_0_#2b180d] transform -rotate-1 group-hover:rotate-0 transition-transform">
+<div class="flex items-center gap-1.5 text-[#634816]">
+<span class="material-symbols-outlined text-[16px] text-primary">schedule</span>
+<span class="font-label-sm text-[11px] font-black uppercase">Next: 3:00 PM</span>
+</div>
+<p class="font-body-sm text-xs text-[#2b180d] font-bold mt-1 leading-snug">Alchemical Research Review</p>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-[11px] font-black text-[#b65c01] underline group-hover:text-primary">Click to unfold itinerary ➔</span>
+</div>
+</div>
+<!-- OBJECT 2: OPEN LEATHERBOUND FIELD LEDGER & QUESTS (Cols 4-8) -->
+<div class="lg:col-span-6 bg-[#fcf5e5] border-[3.5px] border-[#2b180d] p-5 rounded-3xl shadow-[0_8px_0_#2b180d] relative group flex flex-col justify-between">
+<!-- Hanging Ribbon Bookmark & Mascot Stamp -->
+<div class="absolute -top-3 right-8 w-7 h-12 bg-[#e63946] border-2 border-[#2b180d] rounded-b-lg shadow-md z-10 pointer-events-none flex items-end justify-center pb-1">
+<span class="text-white text-[10px] font-bold">★</span>
+</div>
+<div>
+<!-- Ledger Header with Diegetic Expand Button -->
+<div class="flex items-center justify-between mb-4 pb-2.5 border-b-2 border-dashed border-[#2b180d]/40">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary text-[26px]">auto_stories</span>
+<div>
+<h2 class="font-headline-sm text-base md:text-lg font-black text-[#2b180d]">Field Ledger &amp; Quests</h2>
+<p class="font-body-sm text-[11px] text-[#713700] font-bold">Tick tasks to earn acorns and bloom your desk plant!</p>
+</div>
+</div>
+<button class="game-bubble-btn bg-primary text-white font-label-sm text-xs font-black px-3 py-1.5 rounded-xl" onclick="openModal('journal-modal')">
+                  Expand Ledger
+                </button>
+</div>
+<!-- Interactive Quest Checklist (Diegetic Wooden Buttons & Pop Effects) -->
+<div class="flex flex-col gap-2.5" id="notebook-tasks">
+<!-- Task 1 -->
+<label class="flex items-start gap-3 p-2.5 bg-[#f5ebd2] border-2 border-[#2b180d] rounded-2xl cursor-pointer hover:bg-[#eddcb9] transition-all shadow-[0_2px_0_#2b180d]">
+<input checked="" class="w-5 h-5 rounded-lg mt-0.5 accent-primary cursor-pointer border-2 border-[#2b180d]" onchange="toggleTask(this, 30)" type="checkbox"/>
+<div class="flex-1 min-w-0">
+<p class="font-body-md text-xs md:text-sm text-[#2b180d] line-through opacity-70 font-bold">Harvest Starlight Fern for the Apothecary</p>
+<span class="font-label-sm text-[10px] text-secondary font-black bg-[#d8f3dc] px-2 py-0.5 rounded-md border border-secondary/40 inline-block mt-0.5">+30 Acorn XP • Completed ✓</span>
+</div>
+</label>
+<!-- Task 2 -->
+<label class="flex items-start gap-3 p-2.5 bg-[#f5ebd2] border-2 border-[#2b180d] rounded-2xl cursor-pointer hover:bg-[#eddcb9] transition-all shadow-[0_2px_0_#2b180d]">
+<input class="w-5 h-5 rounded-lg mt-0.5 accent-primary cursor-pointer border-2 border-[#2b180d]" onchange="toggleTask(this, 50)" type="checkbox"/>
+<div class="flex-1 min-w-0">
+<p class="font-body-md text-xs md:text-sm text-[#2b180d] font-bold">Tether the Weather Balloon over Cloudspire</p>
+<span class="font-label-sm text-[10px] text-primary font-black bg-[#ffe5d9] px-2 py-0.5 rounded-md border border-primary/40 inline-block mt-0.5">+50 Acorn XP • In Progress ⏳</span>
+</div>
+</label>
+<!-- Task 3 -->
+<label class="flex items-start gap-3 p-2.5 bg-[#f5ebd2] border-2 border-[#2b180d] rounded-2xl cursor-pointer hover:bg-[#eddcb9] transition-all shadow-[0_2px_0_#2b180d]">
+<input class="w-5 h-5 rounded-lg mt-0.5 accent-primary cursor-pointer border-2 border-[#2b180d]" onchange="toggleTask(this, 25)" type="checkbox"/>
+<div class="flex-1 min-w-0">
+<p class="font-body-md text-xs md:text-sm text-[#2b180d] font-bold">Brew lavender sleep tonic for Pippin</p>
+<span class="font-label-sm text-[10px] text-secondary font-black bg-[#d8f3dc] px-2 py-0.5 rounded-md border border-secondary/40 inline-block mt-0.5">+25 Acorn XP • Hearth Care 🍵</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Quick Inline Task Inscriber (Toy Stylized Input) -->
+<div class="mt-4 pt-3 border-t-2 border-dashed border-[#2b180d]/40 flex gap-2">
+<input class="flex-1 bg-[#fffdf7] border-2 border-[#2b180d] px-3.5 py-2 rounded-xl text-[#2b180d] placeholder:text-[#887365] font-body-sm text-xs font-bold focus:outline-none focus:ring-2 focus:ring-primary shadow-inner" id="quick-task-input" placeholder="Inscribe a new cozy quest..." type="text"/>
+<button class="game-bubble-btn bg-[#2a9d8f] text-white px-4 py-2 rounded-xl font-label-sm text-xs font-black" onclick="addQuickTask()">
+                Inscribe ✎
+              </button>
+</div>
+</div>
+<!-- OBJECT 3: RETRO BEIGE POMODORO TIMER & CRT MONITOR (Cols 9-12) -->
+<div class="lg:col-span-3 flex flex-col gap-4">
+<!-- RETRO EGG-TIMER / BRASS POMODORO (Diegetic Toy) -->
+<div class="bg-[#ffeedd] border-[3.5px] border-[#2b180d] p-4 rounded-3xl shadow-[0_6px_0_#2b180d] flex flex-col items-center justify-between text-center relative overflow-hidden">
+<!-- Spinning Wind-up Brass Key atop the timer -->
+<div class="absolute -top-1 left-1/2 -translate-x-1/2 w-6 h-3 bg-[#e76f51] border-2 border-[#2b180d] rounded-t-full shadow-sm" id="pomo-turnkey"></div>
+<div class="w-full flex justify-between items-center px-1 mb-1 mt-1">
+<span class="font-label-sm text-[10px] font-black uppercase text-[#b65c01] tracking-wider">Brass Pomodoro</span>
+<span class="font-label-sm text-[10px] font-black bg-[#d8f3dc] text-[#1b4332] border border-[#2b180d] px-2 py-0.5 rounded-md" id="pomo-mode-badge">Focus</span>
+</div>
+<!-- Animated Dial Face -->
+<div class="relative w-28 h-28 my-2 rounded-full bg-[#fffcf2] border-[3px] border-[#2b180d] flex items-center justify-center shadow-inner">
+<svg class="w-full h-full transform -rotate-90 p-1" viewbox="0 0 36 36">
+<path class="text-[#f1dec9]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-[#e76f51] transition-all duration-1000" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" id="pomo-ring" stroke="currentColor" stroke-dasharray="100, 100" stroke-linecap="round" stroke-width="4"></path>
+</svg>
+<!-- Center Digits -->
+<div class="absolute flex flex-col items-center">
+<span class="font-headline-md text-2xl text-[#2b180d] font-black tracking-tight" id="pomo-timer-display">25:00</span>
+<span class="font-label-sm text-[9px] text-primary font-black uppercase">Minutes</span>
+</div>
+</div>
+<!-- Toy-like Timer Buttons -->
+<div class="flex items-center gap-2 mt-1 w-full">
+<button class="game-bubble-btn flex-1 bg-gradient-to-b from-[#f4a261] to-[#e76f51] text-white py-2 rounded-xl font-label-sm text-xs font-black" id="pomo-toggle-btn" onclick="togglePomodoro()">
+                  Wind Up
+                </button>
+<button class="game-bubble-btn bg-[#f5ebe0] text-[#2b180d] py-2 px-3 rounded-xl font-label-sm text-xs font-black" onclick="resetPomodoro()">
+                  Reset
+                </button>
+</div>
+</div>
+<!-- RETRO MINT CRT TERMINAL / GAME BOY MONITOR -->
+<div class="bg-[#264653] border-[3.5px] border-[#2b180d] p-3 rounded-3xl shadow-[0_6px_0_#2b180d] cursor-pointer group hover:scale-[1.02] transition-transform" onclick="openModal('terminal-modal')">
+<!-- Green Phosphor Screen with scanlines -->
+<div class="bg-[#0f1f14] border-2 border-[#122e1b] p-3 rounded-2xl text-[#52b788] font-mono text-[11px] shadow-inner relative overflow-hidden crt-screen-overlay">
+<div class="flex items-center justify-between text-[9px] text-[#74c69d] mb-1 font-bold">
+<span>TERMINAL://HEARTH_OS</span>
+<span class="animate-pulse text-[#b7efc5]">● LIVE</span>
+</div>
+<p class="leading-tight truncate">&gt; CPU: 12% | HEARTH: WARM</p>
+<p class="leading-tight truncate">&gt; SYNCING FIELD LOGS...</p>
+<div class="flex items-center gap-1 mt-1 text-[#d8f3dc]">
+<span>&gt; READY FOR PROMPT</span>
+<span class="inline-block w-2 h-3.5 bg-[#52b788] animate-ping"></span>
+</div>
+</div>
+<div class="flex items-center justify-between mt-2 px-1 text-white">
+<span class="font-label-sm text-[10px] font-black uppercase tracking-wider text-[#d8f3dc]">Pixel System Stats</span>
+<span class="material-symbols-outlined text-[18px] text-[#74c69d]">terminal</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- DESK BOTTOM FLAVOR STRIP: MASCOT PIPPIN & TOYS -->
+<!-- ============================================== -->
+<div class="mt-6 pt-5 border-t-[3px] border-[#2b180d]/40 flex flex-wrap items-end justify-between gap-4">
+<!-- BOTANICAL EVOLVING SUCCULENT & INTERACTIVE DECOR NOOK -->
+<div class="flex items-end gap-3.5 flex-wrap">
+<!-- Potted Plant (Evolves with Quests) -->
+<div class="relative group cursor-pointer flex flex-col items-center bg-[#fff8f0] border-2 border-[#2b180d] p-2 rounded-2xl shadow-[0_3px_0_#2b180d] hover:rotate-2 transition-transform" id="botanical-pot" onclick="inspectPlant()">
+<div class="flex gap-1 -mb-1 opacity-90 transition-transform duration-500" id="plant-blooms">
+<span class="material-symbols-outlined text-secondary text-[24px] animate-bounce">local_florist</span>
+<span class="material-symbols-outlined text-[#f4a261] text-[20px]">psychiatry</span>
+</div>
+<div class="w-12 h-10 bg-[#e76f51] border-2 border-[#2b180d] rounded-b-xl rounded-t-sm shadow-md flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[20px]">yard</span>
+</div>
+<span class="font-label-sm text-[10px] font-black text-[#2b180d] mt-1">Sun Sprout</span>
+</div>
+<!-- Dynamic Decor Items -->
+<div class="flex flex-col items-center bg-[#fff8f0] border-2 border-[#2b180d] p-2 rounded-2xl shadow-[0_3px_0_#2b180d] transition-all duration-300" id="decor-kettle">
+<span class="material-symbols-outlined text-[#e76f51] text-[28px] animate-pulse">skillet</span>
+<span class="font-label-sm text-[9px] font-bold text-[#2b180d]">Tea Kettle</span>
+</div>
+<div class="flex flex-col items-center bg-[#fff8f0] border-2 border-[#2b180d] p-2 rounded-2xl shadow-[0_3px_0_#2b180d] transition-all duration-300" id="decor-globe">
+<span class="material-symbols-outlined text-[#2a9d8f] text-[26px]">explore</span>
+<span class="font-label-sm text-[9px] font-bold text-[#2b180d]">Astrolabe</span>
+</div>
+<div class="hidden flex-col items-center bg-[#fff8f0] border-2 border-[#2b180d] p-2 rounded-2xl shadow-[0_3px_0_#2b180d] transition-all duration-300" id="decor-terrarium">
+<span class="material-symbols-outlined text-[#2d6a4f] text-[26px]">eco</span>
+<span class="font-label-sm text-[9px] font-bold text-[#2b180d]">Terrarium</span>
+</div>
+<!-- Brass Companion Mail Tray -->
+<div class="bg-[#fff8f0] border-2 border-[#2b180d] px-3.5 py-2 rounded-2xl shadow-[0_3px_0_#2b180d] cursor-pointer hover:scale-105 flex items-center gap-2.5 transition-transform" onclick="openModal('postbox-modal')">
+<div class="relative">
+<span class="material-symbols-outlined text-[#e63946] text-[24px]">mark_email_unread</span>
+<span class="absolute -top-1 -right-1 w-3 h-3 bg-[#e63946] rounded-full border border-white animate-ping" id="unread-letter-badge"></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-xs text-[#2b180d] font-black">Companion Post</span>
+<span class="font-body-sm text-[10px] text-primary font-bold">2 Unopened Letters ✉</span>
+</div>
+</div>
+</div>
+<!-- LIVING MASCOT: PIPPIN (DELIGHTFUL CARTOON ANIMAL WITH EARS & EMOTE BUBBLE) -->
+<div class="relative flex items-center gap-3 bg-[#fff8f0] border-[3.5px] border-[#2b180d] p-3 rounded-3xl shadow-[0_6px_0_#2b180d] cursor-pointer hover:scale-105 transition-all duration-200 group" id="pippin-zone" onclick="petPippin()">
+<!-- Heart Particle Container -->
+<div class="absolute -top-8 left-8 pointer-events-none flex flex-col items-center z-30" id="heart-particles"></div>
+<!-- Floating Emote Comic Speech Bubble -->
+<div class="absolute -top-9 right-4 bg-white border-2 border-[#2b180d] px-2.5 py-0.5 rounded-full text-[11px] font-black text-[#e63946] shadow-[0_2px_0_#2b180d] animate-bubble-jiggle" id="pippin-emote-bubble">
+              💤 zzz
+            </div>
+<!-- Mascot Avatar with Wiggling Ears -->
+<div class="relative w-14 h-14 rounded-2xl bg-gradient-to-b from-[#ffd166] to-[#f4a261] border-2 border-[#2b180d] flex items-center justify-center shadow-inner overflow-hidden animate-ear-wiggle">
+<span class="material-symbols-outlined text-[#6a040f] text-[42px] transition-transform duration-300 group-hover:scale-110" id="pippin-icon">cruelty_free</span>
+<span class="absolute bottom-1 right-1 w-2.5 h-2.5 rounded-full bg-[#06d6a0] border border-[#2b180d] animate-pulse"></span>
+</div>
+<div class="flex flex-col text-left">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-base text-[#2b180d] font-black">Pippin</span>
+<span class="font-label-sm text-[10px] font-black bg-[#d8f3dc] text-[#1b4332] border border-[#2b180d] px-2 py-0.5 rounded-full" id="pippin-mood">Purring • Sleepy</span>
+</div>
+<p class="font-body-sm text-xs text-[#554337] italic font-semibold max-w-[260px]" id="pippin-quote">"A fine hour for warm tea and honest scribing..."</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- NOTIFICATION FLOATING TOAST (COMIC POP STYLE) -->
+<!-- ============================================== -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-32 opacity-0 transition-all duration-300 bg-[#fffdfa] border-[3.5px] border-[#2b180d] px-5 py-3.5 rounded-3xl shadow-[0_8px_0_#2b180d] flex items-center gap-3.5" id="hearth-toast">
+<div class="w-10 h-10 rounded-2xl bg-[#ffd166] border-2 border-[#2b180d] flex items-center justify-center text-[#2b180d]">
+<span class="material-symbols-outlined text-[24px]">celebration</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-sm font-black text-[#2b180d]" id="toast-title">Quest Accomplished!</h4>
+<p class="font-body-sm text-xs text-[#554337] font-bold" id="toast-desc">+30 Acorn Experience awarded.</p>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- OBJECT MODALS & DIEGETIC SCREENS -->
+<!-- ========================================================================= -->
+<!-- 1. CALENDAR MODAL -->
+<div class="fixed inset-0 z-50 hidden bg-[#1a0f08]/70 backdrop-blur-sm flex items-center justify-center p-4" id="calendar-modal">
+<div class="w-full max-w-2xl bg-[#fffaf0] border-[4px] border-[#2b180d] rounded-3xl p-6 shadow-[0_12px_0_#2b180d] flex flex-col gap-4 transform transition-all">
+<div class="flex items-center justify-between pb-3 border-b-2 border-[#2b180d]/30">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary text-[32px]">calendar_month</span>
+<div>
+<h3 class="font-headline-md text-xl font-black text-[#2b180d]">Autumn Almanac &amp; Itinerary</h3>
+<p class="font-body-sm text-xs text-on-surface-variant font-bold">Cycle 14 — Month of the Falling Amber Leaf</p>
+</div>
+</div>
+<button class="w-10 h-10 rounded-2xl bg-[#faedcd] border-2 border-[#2b180d] flex items-center justify-center shadow-[0_2px_0_#2b180d] hover:bg-[#fefae0]" onclick="closeModal('calendar-modal')">
+<span class="material-symbols-outlined text-[#2b180d]">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-3 max-h-96 overflow-y-auto pr-1">
+<div class="flex items-center gap-4 p-3 bg-[#e9edc9] border-2 border-[#2b180d] rounded-2xl shadow-[0_2px_0_#2b180d]">
+<span class="font-label-md text-xs font-black text-[#2b180d] w-20">09:00 AM</span>
+<div class="flex-1">
+<h4 class="font-headline-sm text-sm font-black text-[#2b180d]">Dawn Starlight Foraging</h4>
+<p class="font-body-sm text-xs text-on-surface-variant font-medium">Gather 4x Bluecap Mushrooms from the Whispering Orchard.</p>
+</div>
+<span class="font-label-sm text-[10px] font-black bg-[#d8f3dc] text-[#1b4332] border border-[#2b180d] px-2.5 py-1 rounded-full">Completed ✓</span>
+</div>
+<div class="flex items-center gap-4 p-3 bg-[#ffddd2] border-2 border-[#2b180d] rounded-2xl shadow-[0_2px_0_#2b180d]">
+<span class="font-label-md text-xs font-black text-[#e76f51] w-20">03:00 PM</span>
+<div class="flex-1">
+<h4 class="font-headline-sm text-sm font-black text-[#2b180d]">Alchemical Research Review</h4>
+<p class="font-body-sm text-xs text-on-surface-variant font-medium">Review distillation efficiency with Corvus the Scribe.</p>
+</div>
+<span class="font-label-sm text-[10px] font-black bg-primary text-white border border-[#2b180d] px-2.5 py-1 rounded-full">Current ⏳</span>
+</div>
+<div class="flex items-center gap-4 p-3 bg-[#faedcd] border-2 border-[#2b180d] rounded-2xl shadow-[0_2px_0_#2b180d]">
+<span class="font-label-md text-xs font-black text-[#6b705c] w-20">07:30 PM</span>
+<div class="flex-1">
+<h4 class="font-headline-sm text-sm font-black text-[#2b180d]">Hearthside Gramophone Session</h4>
+<p class="font-body-sm text-xs text-on-surface-variant font-medium">Wind spring mechanism and catalog new ocean folk records.</p>
+</div>
+<span class="font-label-sm text-[10px] font-black bg-[#ddbea9] text-[#2b180d] border border-[#2b180d] px-2.5 py-1 rounded-full">Pending</span>
+</div>
+</div>
+<div class="pt-3 border-t-2 border-[#2b180d]/30 flex justify-between items-center">
+<span class="font-body-sm text-xs font-bold text-on-surface-variant">Next event begins in 28 minutes.</span>
+<button class="game-bubble-btn bg-primary text-white px-5 py-2 rounded-2xl font-label-md text-xs font-black" onclick="closeModal('calendar-modal')">Return to Desk</button>
+</div>
+</div>
+</div>
+<!-- 2. NOTEBOOK / FIELD LEDGER MODAL -->
+<div class="fixed inset-0 z-50 hidden bg-[#1a0f08]/70 backdrop-blur-sm flex items-center justify-center p-4" id="journal-modal">
+<div class="w-full max-w-3xl bg-[#fefae0] border-[4px] border-[#2b180d] rounded-3xl p-6 shadow-[0_12px_0_#2b180d] flex flex-col gap-4">
+<div class="flex items-center justify-between pb-3 border-b-2 border-dashed border-[#2b180d]/40">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary text-[32px]">book</span>
+<div>
+<h3 class="font-headline-md text-xl font-black text-[#2b180d]">The Chronicler's Field Book</h3>
+<p class="font-body-sm text-xs text-on-surface-variant font-bold">Volume IV: Ventures Across the Whispering Ridge</p>
+</div>
+</div>
+<button class="w-10 h-10 rounded-2xl bg-[#faedcd] border-2 border-[#2b180d] flex items-center justify-center shadow-[0_2px_0_#2b180d]" onclick="closeModal('journal-modal')">
+<span class="material-symbols-outlined text-[#2b180d]">close</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="flex flex-col gap-2 bg-[#faedcd] border-2 border-[#2b180d] p-3 rounded-2xl">
+<button class="game-bubble-btn flex items-center justify-between p-2.5 rounded-xl bg-[#2a9d8f] text-white font-black text-xs">
+<span>Daily Living Quests</span>
+<span class="bg-[#264653] px-2 py-0.5 rounded-full text-[10px]">(3)</span>
+</button>
+<button class="flex items-center justify-between p-2 rounded-xl text-on-surface-variant hover:bg-[#fefae0] font-bold text-xs">
+<span>Botanical Recipes</span>
+<span>(8)</span>
+</button>
+<button class="flex items-center justify-between p-2 rounded-xl text-on-surface-variant hover:bg-[#fefae0] font-bold text-xs">
+<span>Companion Affinities</span>
+<span>(4)</span>
+</button>
+</div>
+<div class="md:col-span-2 flex flex-col gap-3">
+<div class="p-4 bg-[#fff1e6] border-2 border-[#2b180d] rounded-2xl shadow-inner">
+<h4 class="font-headline-sm text-sm font-black text-[#2b180d]">Active Grand Project</h4>
+<p class="font-body-md text-xs text-on-surface-variant mt-1 font-bold">"Restoration of the Sunken Conservatory"</p>
+<div class="w-full bg-[#faedcd] h-3.5 rounded-full border-2 border-[#2b180d] overflow-hidden mt-3 p-0.5">
+<div class="bg-[#2a9d8f] h-full rounded-full" style="width: 72%;"></div>
+</div>
+<span class="font-label-sm text-[11px] font-black text-[#2a9d8f] mt-1.5 block">72% Completed • Stage 3 of 4</span>
+</div>
+<div class="p-3.5 bg-[#fff1e6] border-2 border-[#2b180d] rounded-2xl flex flex-col gap-2">
+<h4 class="font-label-md text-xs font-black text-[#2b180d]">Pending Milestones</h4>
+<div class="flex items-center justify-between text-xs font-bold">
+<span class="font-body-sm text-[#2b180d]">• Secure 10x Brass Screws</span>
+<span class="font-label-sm text-[10px] font-black text-primary bg-[#ffd7ba] px-2 py-0.5 rounded-md border border-[#2b180d]">In Progress</span>
+</div>
+<div class="flex items-center justify-between text-xs font-bold">
+<span class="font-body-sm text-[#2b180d]">• Translate Ancient Fern Glyphs</span>
+<span class="font-label-sm text-[10px] font-black text-secondary bg-[#d8f3dc] px-2 py-0.5 rounded-md border border-[#2b180d]">Ready to Submit</span>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-2 border-t-2 border-dashed border-[#2b180d]/40 flex justify-end">
+<button class="game-bubble-btn bg-primary text-white px-5 py-2 rounded-2xl font-label-md text-xs font-black" onclick="closeModal('journal-modal')">Close Journal</button>
+</div>
+</div>
+</div>
+<!-- 3. RETRO CRT TERMINAL MODAL -->
+<div class="fixed inset-0 z-50 hidden bg-[#0d160e]/85 backdrop-blur-md flex items-center justify-center p-4" id="terminal-modal">
+<div class="w-full max-w-2xl bg-[#1b3a24] border-[4px] border-[#2b180d] rounded-3xl p-6 shadow-[0_12px_0_#0f2014] font-mono text-[#52b788] flex flex-col gap-4">
+<div class="flex items-center justify-between pb-3 border-b-2 border-[#2d5738]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#74c69d] text-[24px]">terminal</span>
+<span class="font-headline-sm text-sm font-black text-[#b7efc5]">HEARTH_OS v1.4.2 [GAME STATS]</span>
+</div>
+<button class="w-9 h-9 rounded-xl bg-[#2d5738] border-2 border-[#2b180d] flex items-center justify-center text-[#d8f3dc]" onclick="closeModal('terminal-modal')">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+<div class="h-64 overflow-y-auto bg-[#0a140d] border-2 border-[#2d5738] p-4 rounded-2xl flex flex-col gap-2 text-xs leading-relaxed crt-screen-overlay">
+<p>&gt; BOOTING KERNEL: COZY_ENGINE_LOADED [OK]</p>
+<p>&gt; ROOM_SENSOR: HEARTH_TEMP = 21.4 C | DUSK_LUMINOSITY = 44%</p>
+<p>&gt; MASCOT_MONITOR: PIPPIN VITALITY 100% | HAPPINESS = OVERFLOW</p>
+<p>&gt; POMODORO_CYCLES_TODAY = 4 SESSIONS (100 MIN TOTAL FOCUS)</p>
+<p class="text-[#ffe066]">&gt; ACORN_STORAGE: 420 ACORNS LOGGED TO VAULT</p>
+<p class="text-[#b7efc5]">&gt; CURRENT FOCUS: “Botanical Crafting Optimization”</p>
+<p class="animate-pulse text-[#74c69d]">&gt; READY FOR HEARTH DIRECTIVE _</p>
+</div>
+<div class="flex items-center justify-between pt-2 border-t-2 border-[#2d5738]">
+<span class="text-[11px] text-[#74c69d] font-bold">Press ESC or click button to power down</span>
+<button class="game-bubble-btn bg-[#2d5738] text-[#d8f3dc] px-4 py-2 rounded-xl text-xs font-black" onclick="closeModal('terminal-modal')">Power Down Screen</button>
+</div>
+</div>
+</div>
+<!-- 4. COMPANION POSTBOX MODAL -->
+<div class="fixed inset-0 z-50 hidden bg-[#1a0f08]/70 backdrop-blur-sm flex items-center justify-center p-4" id="postbox-modal">
+<div class="w-full max-w-xl bg-[#fffaf0] border-[4px] border-[#2b180d] rounded-3xl p-6 shadow-[0_12px_0_#2b180d] flex flex-col gap-4">
+<div class="flex items-center justify-between pb-3 border-b-2 border-[#2b180d]/30">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#e63946] text-[30px]">forward_to_inbox</span>
+<div>
+<h3 class="font-headline-md text-xl font-black text-[#2b180d]">Companion Pigeon Post</h3>
+<p class="font-body-sm text-xs text-on-surface-variant font-bold">Incoming dispatches from cozy friends</p>
+</div>
+</div>
+<button class="w-10 h-10 rounded-2xl bg-[#faedcd] border-2 border-[#2b180d] flex items-center justify-center" onclick="closeModal('postbox-modal')">
+<span class="material-symbols-outlined text-[#2b180d]">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-3">
+<div class="p-3.5 bg-[#fff1e6] border-2 border-[#2b180d] rounded-2xl flex flex-col gap-1 border-l-8 border-l-[#f4a261]">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-xs text-primary font-black">Rowan the Tea Merchant</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant font-bold">1 Hour Ago</span>
+</div>
+<p class="font-body-sm text-xs text-[#2b180d] font-medium leading-relaxed">"Dearest Wanderer! The chamomile harvest has arrived from the southern hills. I saved a tin of honeyed blend for your desk."</p>
+</div>
+<div class="p-3.5 bg-[#e8f5e9] border-2 border-[#2b180d] rounded-2xl flex flex-col gap-1 border-l-8 border-l-[#2a9d8f]">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-xs text-[#2a9d8f] font-black">Corvus the Scribe</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant font-bold">Yesterday</span>
+</div>
+<p class="font-body-sm text-xs text-[#2b180d] font-medium leading-relaxed">"The blueprint for the moss terrarium is fully inked. Whenever you are ready to craft, the Apothecary bench awaits."</p>
+</div>
+</div>
+<div class="pt-3 border-t-2 border-[#2b180d]/30 flex justify-end">
+<button class="game-bubble-btn bg-primary text-white px-5 py-2 rounded-2xl font-label-md text-xs font-black" onclick="closeModal('postbox-modal')">Seal Sorter</button>
+</div>
+</div>
+</div>
+<!-- 5. TROPHY SHELF MODAL -->
+<div class="fixed inset-0 z-50 hidden bg-[#1a0f08]/70 backdrop-blur-sm flex items-center justify-center p-4" id="trophy-modal">
+<div class="w-full max-w-xl bg-[#fffaf0] border-[4px] border-[#2b180d] rounded-3xl p-6 shadow-[0_12px_0_#2b180d] flex flex-col gap-4">
+<div class="flex items-center justify-between pb-3 border-b-2 border-[#2b180d]/30">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[#f39c12] text-[32px]">military_tech</span>
+<div>
+<h3 class="font-headline-md text-xl font-black text-[#2b180d]">Shelf of Honors &amp; Curios</h3>
+<p class="font-body-sm text-xs text-on-surface-variant font-bold">Milestone accomplishments throughout your cozy journey</p>
+</div>
+</div>
+<button class="w-10 h-10 rounded-2xl bg-[#faedcd] border-2 border-[#2b180d] flex items-center justify-center" onclick="closeModal('trophy-modal')">
+<span class="material-symbols-outlined text-[#2b180d]">close</span>
+</button>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="p-3.5 bg-[#fefae0] border-2 border-[#2b180d] rounded-2xl flex items-center gap-3 shadow-[0_2px_0_#2b180d]">
+<span class="material-symbols-outlined text-[#f39c12] text-[32px]">emoji_events</span>
+<div>
+<p class="font-label-md text-xs text-[#2b180d] font-black">Golden Acorn</p>
+<span class="font-body-sm text-[10px] text-primary font-bold">Awarded for 10 Focus Blocks</span>
+</div>
+</div>
+<div class="p-3.5 bg-[#e8f5e9] border-2 border-[#2b180d] rounded-2xl flex items-center gap-3 shadow-[0_2px_0_#2b180d]">
+<span class="material-symbols-outlined text-[#2a9d8f] text-[32px]">psychiatry</span>
+<div>
+<p class="font-label-md text-xs text-[#2b180d] font-black">Sprout Tender</p>
+<span class="font-body-sm text-[10px] text-[#2a9d8f] font-bold">Care for desk garden daily</span>
+</div>
+</div>
+<div class="p-3.5 bg-[#faedcd] border-2 border-[#2b180d] rounded-2xl flex items-center gap-3 opacity-60">
+<span class="material-symbols-outlined text-outline text-[30px]">lock</span>
+<div>
+<p class="font-label-md text-xs text-[#2b180d] font-black">Astral Scribe</p>
+<span class="font-body-sm text-[10px] text-outline font-bold">Complete 100 Quests</span>
+</div>
+</div>
+<div class="p-3.5 bg-[#faedcd] border-2 border-[#2b180d] rounded-2xl flex items-center gap-3 opacity-60">
+<span class="material-symbols-outlined text-outline text-[30px]">lock</span>
+<div>
+<p class="font-label-md text-xs text-[#2b180d] font-black">Midnight Tea Master</p>
+<span class="font-body-sm text-[10px] text-outline font-bold">Brew all 12 tea recipes</span>
+</div>
+</div>
+</div>
+<div class="pt-3 border-t-2 border-[#2b180d]/30 flex justify-end">
+<button class="game-bubble-btn bg-primary text-white px-5 py-2 rounded-2xl font-label-md text-xs font-black" onclick="closeModal('trophy-modal')">Return to Desk</button>
+</div>
+</div>
+</div>
+</main>
+<!-- ========================================== -->
+<!-- CARTOON GAME FOOTER BAR -->
+<!-- ========================================== -->
+<footer class="w-full bg-[#fdf0d5] border-t-[3.5px] border-[#2b180d] py-4">
+<div class="max-w-7xl mx-auto px-space-md flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]">nest_clock_farsight_analog</span>
+<span class="font-headline-sm text-sm text-[#2b180d] font-black">Cozy Hearth Studio</span>
+<span class="font-body-sm text-xs text-[#554337] font-bold">• Life Sim RPG Framework</span>
+</div>
+<div class="flex items-center gap-4 text-xs font-bold text-[#554337]">
+<span>Atmosphere: Hearthside Embers &amp; Late Twilight</span>
+<span class="bg-[#ffd7ba] border border-[#2b180d] text-primary px-2.5 py-0.5 rounded-full font-black text-[10px]">BUILD 1.4.2 COZY ENGINE</span>
+</div>
+</div>
+</footer>
+<!-- ========================================== -->
+<!-- LIVING DESK INTERACTIVITY ENGINE (JAVASCRIPT) -->
+<!-- ========================================== -->
+<script>
+    // 1. SOUND & SFX TOGGLE
+    let sfxEnabled = true;
+    function toggleSfx() {
+      sfxEnabled = !sfxEnabled;
+      const icon = document.getElementById('sfx-icon');
+      if (sfxEnabled) {
+        icon.innerText = 'volume_up';
+        showToast('Soundscape Enabled ♫', 'Chimes, ticks, and paper sounds active.');
+      } else {
+        icon.innerText = 'volume_off';
+        showToast('Soundscape Muted 🔇', 'Enjoy quiet reading in the glen.');
+      }
+    }
+
+    // 2. GOOSENECK LAMP LIGHT SWITCH
+    let lampOn = true;
+    const lampToggleBtn = document.getElementById('lamp-toggle-btn');
+    const lampIcon = document.getElementById('lamp-status-icon');
+    const lampText = document.getElementById('lamp-status-text');
+    const deskBoard = document.getElementById('desk-board');
+    const lampGlow = document.getElementById('lamp-glow-overlay');
+
+    lampToggleBtn.addEventListener('click', () => {
+      lampOn = !lampOn;
+      if (lampOn) {
+        lampIcon.innerText = 'lightbulb';
+        lampText.innerText = 'Lamp: Golden Radiance';
+        deskBoard.classList.remove('brightness-75');
+        lampGlow.classList.remove('hidden');
+        showToast('Lamp Clicked! 💡', 'Warm golden radiance illuminates the wooden desk.');
+      } else {
+        lampIcon.innerText = 'lightbulb_outline';
+        lampText.innerText = 'Lamp: Twilight Shades';
+        deskBoard.classList.add('brightness-75');
+        lampGlow.classList.add('hidden');
+        showToast('Lamp Dimmed 🌙', 'Soaking in the twilight shadows.');
+      }
+    });
+
+    // 3. RETRO POMODORO TIMER LOGIC
+    let pomoSeconds = 25 * 60;
+    let pomoInterval = null;
+    let pomoRunning = false;
+    const pomoDisplay = document.getElementById('pomo-timer-display');
+    const pomoBtn = document.getElementById('pomo-toggle-btn');
+    const pomoRing = document.getElementById('pomo-ring');
+    const turnKey = document.getElementById('pomo-turnkey');
+
+    function updatePomoDisplay() {
+      const mins = Math.floor(pomoSeconds / 60);
+      const secs = pomoSeconds % 60;
+      pomoDisplay.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      const percent = ((25 * 60 - pomoSeconds) / (25 * 60)) * 100;
+      pomoRing.style.strokeDasharray = `${100 - percent}, 100`;
+    }
+
+    function togglePomodoro() {
+      if (pomoRunning) {
+        clearInterval(pomoInterval);
+        pomoRunning = false;
+        pomoBtn.innerText = 'Resume';
+        turnKey.style.animation = 'none';
+        showToast('Timer Paused ⏸️', 'Take a breath and stretch your paws.');
+      } else {
+        pomoRunning = true;
+        pomoBtn.innerText = 'Pause';
+        turnKey.style.animation = 'turnKeySpin 2s linear infinite';
+        showToast('Focus Session Started! ⏰', 'The brass gears turn with a pleasant tick-tick-tick.');
+        pomoInterval = setInterval(() => {
+          if (pomoSeconds > 0) {
+            pomoSeconds--;
+            updatePomoDisplay();
+          } else {
+            clearInterval(pomoInterval);
+            pomoRunning = false;
+            pomoBtn.innerText = 'Start Break';
+            turnKey.style.animation = 'none';
+            celebrateTask('+100 Focus Acorns 🌰', 'Focus cycle complete! The tea bell rings!');
+            addAcorns(100);
+          }
+        }, 1000);
+      }
+    }
+
+    function resetPomodoro() {
+      clearInterval(pomoInterval);
+      pomoRunning = false;
+      pomoSeconds = 25 * 60;
+      pomoBtn.innerText = 'Wind Up';
+      turnKey.style.animation = 'none';
+      updatePomoDisplay();
+      showToast('Timer Rewound ↺', 'Ready for the next dedicated session.');
+    }
+
+    // 4. TASK CHECKLIST & ROOM EVOLUTION LOGIC
+    let completedQuests = 1;
+    const totalQuests = 5;
+    let acornTotal = 420;
+
+    function addAcorns(amount) {
+      acornTotal += amount;
+      const acornDisplay = document.getElementById('hud-acorn-counter');
+      if (acornDisplay) {
+        acornDisplay.innerHTML = `<span>${acornTotal}</span><span class="text-[11px] text-[#e76f51] font-bold">🌰</span>`;
+      }
+    }
+
+    function toggleTask(checkbox, xp) {
+      const parentText = checkbox.nextElementSibling.querySelector('p');
+      if (checkbox.checked) {
+        parentText.classList.add('line-through', 'opacity-70');
+        completedQuests = Math.min(totalQuests, completedQuests + 1);
+        celebrateTask(`+${xp} Acorn XP! ★`, 'Quest inscribed into the hall of records!');
+        addAcorns(xp);
+        sproutPlant();
+        pippinBounce();
+      } else {
+        parentText.classList.remove('line-through', 'opacity-70');
+        completedQuests = Math.max(0, completedQuests - 1);
+        addAcorns(-xp);
+      }
+      updateQuestProgress();
+    }
+
+    function addQuickTask() {
+      const input = document.getElementById('quick-task-input');
+      const val = input.value.trim();
+      if (!val) return;
+
+      const list = document.getElementById('notebook-tasks');
+      const newLabel = document.createElement('label');
+      newLabel.className = 'flex items-start gap-3 p-2.5 bg-[#f5ebd2] border-2 border-[#2b180d] rounded-2xl cursor-pointer hover:bg-[#eddcb9] transition-all shadow-[0_2px_0_#2b180d]';
+      newLabel.innerHTML = `
+        <input type="checkbox" onchange="toggleTask(this, 35)" class="w-5 h-5 rounded-lg mt-0.5 accent-primary cursor-pointer border-2 border-[#2b180d]">
+        <div class="flex-1 min-w-0">
+          <p class="font-body-md text-xs md:text-sm text-[#2b180d] font-bold">${val}</p>
+          <span class="font-label-sm text-[10px] text-primary font-black bg-[#ffe5d9] px-2 py-0.5 rounded-md border border-primary/40 inline-block mt-0.5">+35 Acorn XP • Custom Quest</span>
+        </div>
+      `;
+      list.appendChild(newLabel);
+      input.value = '';
+      showToast('New Quest Inscribed! ✍️', `"${val}" logged in field book.`);
+    }
+
+    function updateQuestProgress() {
+      document.getElementById('quest-count').innerText = `${completedQuests} / ${totalQuests} Complete`;
+      const pct = (completedQuests / totalQuests) * 100;
+      document.getElementById('quest-bar').style.width = `${pct}%`;
+    }
+
+    // 5. LIVING MASCOT 'PIPPIN' PETTING & EMOTES
+    let petCount = 0;
+    const pippinQuotes = [
+      '"A fine hour for warm tea and honest scribing..."',
+      '"Purrrrr! Your quill strokes make the sweetest rhythm."',
+      '"Did I hear a letter envelope rustling in the tray?"',
+      '"Five minutes of rest makes every acorn sweeter."',
+      '"Look at your succulent! It grows with your diligence!"',
+      '"Sniff sniff... is someone brewing lavender chamomile?"'
+    ];
+    const pippinEmotes = ['❤️', '✨', '🐾', '🌸', '🎶', '🍯'];
+
+    function petPippin() {
+      petCount++;
+      const icon = document.getElementById('pippin-icon');
+      const mood = document.getElementById('pippin-mood');
+      const quote = document.getElementById('pippin-quote');
+      const particles = document.getElementById('heart-particles');
+      const emoteBubble = document.getElementById('pippin-emote-bubble');
+
+      // Emit heart particle
+      const heart = document.createElement('span');
+      heart.className = 'material-symbols-outlined text-[#e63946] text-[28px]';
+      heart.style.animation = 'heartFloatUp 1s ease-out forwards';
+      heart.style.fontVariationSettings = "'FILL' 1";
+      heart.innerText = 'favorite';
+      particles.appendChild(heart);
+      setTimeout(() => heart.remove(), 1000);
+
+      // Emote speech bubble reaction
+      emoteBubble.innerText = pippinEmotes[petCount % pippinEmotes.length] + ' purr!';
+
+      icon.classList.add('-translate-y-2.5', 'scale-110');
+      setTimeout(() => icon.classList.remove('-translate-y-2.5', 'scale-110'), 250);
+
+      mood.innerText = 'Affectionate • Playful';
+      quote.innerText = pippinQuotes[petCount % pippinQuotes.length];
+
+      showToast('Pippin Purrs Joyfully! 🐾', 'Pippin nuzzles your sleeve happily.');
+    }
+
+    function pippinBounce() {
+      const icon = document.getElementById('pippin-icon');
+      icon.classList.add('scale-125');
+      setTimeout(() => icon.classList.remove('scale-125'), 400);
+    }
+
+    // 6. BOTANICAL SPECIMEN EVOLUTION
+    let plantStage = 1;
+    function sproutPlant() {
+      plantStage++;
+      const blooms = document.getElementById('plant-blooms');
+      if (plantStage >= 3) {
+        blooms.innerHTML += `<span class="material-symbols-outlined text-[#e76f51] text-[22px] animate-spin">spa</span>`;
+      }
+    }
+
+    function inspectPlant() {
+      showToast('Sun Sprout Thriving! 🌱', 'Growing strong from today\'s completed hearth tasks!');
+    }
+
+    // 7. DECOR SHELF TOGGLES
+    function toggleDecor(item) {
+      const kettle = document.getElementById('decor-kettle');
+      const terrarium = document.getElementById('decor-terrarium');
+      const globe = document.getElementById('decor-globe');
+
+      if (item === 'kettle') {
+        kettle.classList.toggle('hidden');
+        const active = !kettle.classList.contains('hidden');
+        document.getElementById('decor-kettle-badge').innerText = active ? 'Active' : 'Hidden';
+      } else if (item === 'terrarium') {
+        terrarium.classList.toggle('hidden');
+        const active = !terrarium.classList.contains('hidden');
+        document.getElementById('decor-terrarium-badge').innerText = active ? 'Active' : 'Hidden';
+      } else if (item === 'globe') {
+        globe.classList.toggle('hidden');
+        const active = !globe.classList.contains('hidden');
+        document.getElementById('decor-globe-badge').innerText = active ? 'Active' : 'Hidden';
+      }
+    }
+
+    // 8. TOAST & MODAL HELPERS
+    let toastTimer = null;
+    function showToast(title, desc) {
+      const toast = document.getElementById('hearth-toast');
+      document.getElementById('toast-title').innerText = title;
+      document.getElementById('toast-desc').innerText = desc;
+      toast.classList.remove('translate-y-32', 'opacity-0');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.add('translate-y-32', 'opacity-0');
+      }, 3200);
+    }
+
+    function celebrateTask(reward, message) {
+      showToast(reward, message);
+    }
+
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+      }
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      }
+    }
+
+    // Escape key closes modals
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        ['calendar-modal', 'journal-modal', 'terminal-modal', 'postbox-modal', 'trophy-modal'].forEach(closeModal);
+      }
+    });
+  </script>
+</body></html>
