@@ -17,7 +17,7 @@ type Project = { id: string; name: string; parentId: string | null; archivedAt: 
 type Tag = { id: string; name: string };
 
 const STATUS_FILTERS = [
-  { key: "all", label: "All Quests" },
+  { key: "all", label: "All Tasks" },
   { key: "todo", label: "Pending" },
   { key: "in_progress", label: "In Progress" },
   { key: "done", label: "Completed" },
@@ -215,7 +215,7 @@ export default function TasksPage() {
   }
 
   async function deleteTask(id: string) {
-    if (!window.confirm("Delete this quest?")) return;
+    if (!window.confirm("Delete this task?")) return;
     setError(null);
     try {
       const res = await fetch(`/api/tasks/${id}`, { method: "DELETE" });
@@ -258,23 +258,12 @@ export default function TasksPage() {
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div>
-            <h1 className="h1">Task Ledger</h1>
-            <p className="muted text-xs">Tick tasks to earn acorns and bloom your desk plant.</p>
-          </div>
+          <h1 className="h1">Tasks</h1>
+          <span className="badge-seal">{total} total</span>
         </div>
         <div className="flex items-center gap-3">
-          {/* Decorative vault (de-emphasized) */}
-          <div
-            aria-hidden="true"
-            className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-dashed border-mahogany/40 bg-surface text-muted/70 text-xs select-none cursor-default"
-          >
-            <span>🌰</span>
-            <span>Ledger Vault: 1,420</span>
-            <span className="text-[9px] uppercase px-1 rounded bg-surface-2 text-muted/60">Decor</span>
-          </div>
           <button type="button" className="btn btn-primary" onClick={() => setShowCreate(true)}>
-            + New Quest
+            + New Task
           </button>
         </div>
       </div>
@@ -296,7 +285,7 @@ export default function TasksPage() {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search quests, recipes, or guild projects…"
+              placeholder="Search tasks…"
               className="input w-full pl-10 text-sm"
             />
           </div>
@@ -342,7 +331,7 @@ export default function TasksPage() {
               onChange={(e) => setProjectFilter(e.target.value)}
               className="input text-xs"
             >
-              <option value="">All Realms / Projects</option>
+              <option value="">All projects</option>
               {projects
                 .filter((p) => !p.archivedAt)
                 .map((p) => (
@@ -354,14 +343,14 @@ export default function TasksPage() {
           </div>
         </div>
 
-        {/* Mini progress shelf */}
+        {/* Daily progress */}
         <div className="bg-surface-2/70 rounded-xl p-3.5 mb-5 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-surface flex items-center justify-center text-honey">⭐</div>
+            <div className="w-8 h-8 rounded-lg bg-surface flex items-center justify-center text-honey">✓</div>
             <div>
-              <span className="font-label text-xs text-muted uppercase tracking-wide block">Ledger Bounty</span>
+              <span className="font-label text-xs text-muted uppercase tracking-wide block">Daily progress</span>
               <span className="text-xs text-muted">
-                {completed} of {total} completed for today&apos;s Warm Tea bonus
+                {completed} of {total} completed
               </span>
             </div>
           </div>
@@ -377,8 +366,8 @@ export default function TasksPage() {
         {filtered.length === 0 ? (
           <p className="muted text-sm">
             {tasks.length === 0
-              ? "Your ledger is empty — inscribe a quest above."
-              : "No quests match these filters."}
+              ? "No tasks yet. Add one above."
+              : "No tasks match these filters."}
           </p>
         ) : (
           <ul className="flex flex-col gap-2">
@@ -427,7 +416,7 @@ export default function TasksPage() {
         <div className="modal-scrim flex items-center justify-center p-4">
           <div className="modal-panel w-full max-w-xl">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="h2">Inscribe a New Quest</h2>
+              <h2 className="h2">Add Task</h2>
               <button
                 type="button"
                 aria-label="Close dialog"
@@ -445,7 +434,7 @@ export default function TasksPage() {
                 type="text"
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
-                placeholder="e.g. Gather moon mushrooms from Whispering Glen"
+                placeholder="e.g. Write weekly status update"
                 className="input sm:col-span-2"
                 maxLength={300}
                 required
@@ -493,7 +482,7 @@ export default function TasksPage() {
                 min={0}
                 value={newPoints}
                 onChange={(e) => setNewPoints(e.target.value)}
-                placeholder="+ Acorn XP"
+                placeholder="Points"
                 className="input"
               />
               <input
@@ -514,7 +503,7 @@ export default function TasksPage() {
               />
               <div className="sm:col-span-2 flex gap-2">
                 <button type="submit" className="btn btn-primary" disabled={creating}>
-                  {creating ? "Inscribing…" : "Inscribe Quest ✎"}
+                  {creating ? "Adding…" : "Add Task"}
                 </button>
                 <button
                   type="button"
@@ -661,7 +650,7 @@ function TaskRow(props: {
               {task.dueDate && <span>📅 {task.dueDate}</span>}
               {task.estimateMinutes != null && <span>⏱ {task.estimateMinutes}m</span>}
               {task.personalPoints > 0 && (
-                <span className="badge-seal badge-honey text-[9px]">+{task.personalPoints} Acorn XP</span>
+                <span className="badge-seal badge-honey text-[9px]">+{task.personalPoints} Points</span>
               )}
               {tagIds.map((tid) => {
                 const t = tags.find((x) => x.id === tid);

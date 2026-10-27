@@ -111,7 +111,7 @@ export default function TimesheetPage() {
 
   function taskName(id: string | null): string | null {
     if (!id) return null;
-    return tasks.find((t) => t.id === id)?.title ?? "Unknown quest";
+    return tasks.find((t) => t.id === id)?.title ?? "Unknown task";
   }
 
   function projectName(id: string | null): string | null {
@@ -234,7 +234,7 @@ export default function TimesheetPage() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="h1">Field Ledger</h1>
+        <h1 className="h1">Timesheet</h1>
         <span className="hud-pill">
           Total Tracked: {formatDuration(totalSeconds)}
         </span>
@@ -281,7 +281,7 @@ export default function TimesheetPage() {
               />
             </div>
             <div>
-              <label className="label mb-1 block">Quest (optional)</label>
+              <label className="label mb-1 block">Task (optional)</label>
               <select
                 value={mTaskId}
                 onChange={(e) => setMTaskId(e.target.value)}
@@ -392,7 +392,7 @@ export default function TimesheetPage() {
                   <th className="label pb-2 pr-3 text-xs">Start</th>
                   <th className="label pb-2 pr-3 text-xs">End</th>
                   <th className="label pb-2 pr-3 text-xs">Duration</th>
-                  <th className="label pb-2 pr-3 text-xs">Quest / Project</th>
+                  <th className="label pb-2 pr-3 text-xs">Task / Project</th>
                   <th className="label pb-2 pr-3 text-xs">Source</th>
                   <th className="label pb-2 pr-3 text-xs">Notes</th>
                   <th className="label pb-2 text-xs">Actions</th>
@@ -442,7 +442,7 @@ export default function TimesheetPage() {
                               onChange={(e) => setEditTaskId(e.target.value)}
                               className="input text-xs"
                             >
-                              <option value="">— No quest —</option>
+                              <option value="">— No task —</option>
                               {tasks.map((t) => (
                                 <option key={t.id} value={t.id}>
                                   {t.title}

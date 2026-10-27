@@ -64,7 +64,7 @@ export default function ReportsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="h1">Almanac</h1>
+      <h1 className="h1">Reports</h1>
 
       {error && (
         <div className="toast-banner toast-error" role="alert">

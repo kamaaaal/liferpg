@@ -16,11 +16,11 @@ type Task = { id: string; title: string };
 type Project = { id: string; name: string };
 
 const KIND_FILTERS = [
-  { key: "all", label: "All Chronicles" },
-  { key: "focus", label: "⏱️ Focus Timers" },
-  { key: "milestone", label: "✨ Milestone Turn-ins" },
-  { key: "letter", label: "✉️ Companion Letters" },
-  { key: "scribing", label: "📝 Field Notes" },
+  { key: "all", label: "All" },
+  { key: "focus", label: "Focus" },
+  { key: "milestone", label: "Milestone" },
+  { key: "letter", label: "Letter" },
+  { key: "scribing", label: "Note" },
 ] as const;
 
 // Module-level (not during render) to satisfy react-hooks/purity.
@@ -132,30 +132,19 @@ export default function ActivityPage() {
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <span className="badge-seal badge-sage mb-1">Solstice Cycle 4</span>
-          <h1 className="h1-xl flex items-center gap-3">
-            Activity &amp; Field Chronicle <span className="text-honey text-2xl animate-pulse">⏳</span>
-          </h1>
+          <h1 className="h1-xl">Activity Log</h1>
           <p className="muted text-sm mt-1">
-            Logged work periods, focus sessions, and quest milestones inscribed by quill.
+            Logged work periods, focus sessions, and task milestones.
           </p>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
-          {/* Decorative HUD item */}
-          <div
-            aria-hidden="true"
-            className="select-none opacity-60 flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-dashed border-mahogany/40 bg-surface text-muted text-xs cursor-default"
-          >
-            📖 Archive Tome #12
-            <span className="text-[10px] border border-mahogany/30 rounded px-1">Decor</span>
-          </div>
           <span className="hud-pill">{logs.length} entries</span>
           <button type="button" className="btn btn-primary" onClick={() => setShowModal(true)}>
             + Quick Log
           </button>
         </div>
       </div>
-      <p className="muted text-xs -mt-2">{focusHours.toFixed(1)} Focus Hours</p>
+      <p className="muted text-xs -mt-2">{focusHours.toFixed(1)} focus hours</p>
 
       {error && (
         <div className="toast-banner toast-error" role="alert">
@@ -224,7 +213,7 @@ export default function ActivityPage() {
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Filter parchment logs…"
+          placeholder="Search logs…"
           className="input flex-1 min-w-[180px] text-sm"
         />
       </div>
@@ -242,7 +231,7 @@ export default function ActivityPage() {
                   <th className="label pb-2 pr-3 text-xs">Kind</th>
                   <th className="label pb-2 pr-3 text-xs">When</th>
                   <th className="label pb-2 pr-3 text-xs">Duration</th>
-                  <th className="label pb-2 pr-3 text-xs">Quest / Project</th>
+                  <th className="label pb-2 pr-3 text-xs">Task / Project</th>
                   <th className="label pb-2 text-xs">Notes</th>
                 </tr>
               </thead>
@@ -293,7 +282,7 @@ export default function ActivityPage() {
         <div className="modal-scrim flex items-center justify-center p-4">
           <div className="modal-panel w-full max-w-xl">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="h2">Inscribe Quick Activity Log</h2>
+              <h2 className="h2">Log activity</h2>
               <button
                 type="button"
                 aria-label="Close dialog"
@@ -334,7 +323,7 @@ export default function ActivityPage() {
                 />
               </div>
               <div>
-                <label className="label mb-1 block">Quest (optional)</label>
+                <label className="label mb-1 block">Task (optional)</label>
                 <select value={taskId} onChange={(e) => setTaskId(e.target.value)} className="input">
                   <option value="">No task</option>
                   {tasks.map((t) => (

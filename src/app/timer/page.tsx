@@ -130,7 +130,7 @@ export default function TimerPage() {
           {/* Main pomodoro card */}
           <div className="card flex flex-col items-center gap-4 lg:col-span-8">
             <div className="flex w-full items-center justify-between">
-              <h1 className="h1">Brass Pomodoro</h1>
+              <h1 className="h1">Timer</h1>
               <span
                 className={[
                   "badge-seal",
@@ -149,14 +149,14 @@ export default function TimerPage() {
             </div>
 
             <div className="w-full">
-              <label className="label mb-1 block">Linked Quest</label>
+              <label className="label mb-1 block">Linked Task</label>
               <select
                 value={selectedTask}
                 onChange={(e) => setSelectedTask(e.target.value)}
                 className="input w-full"
                 disabled={!!session}
               >
-                <option value="">No quest</option>
+                <option value="">No task</option>
                 {tasks.map((t) => (
                   <option key={t.id} value={t.id}>
                     {t.title}
@@ -172,7 +172,7 @@ export default function TimerPage() {
                   className="btn btn-primary"
                   onClick={() => call("/api/timer/start", { taskId: selectedTask || null })}
                 >
-                  Wind Up
+                  Start
                 </button>
               )}
               {isRunning && (
@@ -181,7 +181,7 @@ export default function TimerPage() {
                     Pause
                   </button>
                   <button type="button" className="btn btn-danger" onClick={() => call("/api/timer/stop")}>
-                    Stop &amp; Bank
+                    Stop
                   </button>
                 </>
               )}
@@ -191,20 +191,20 @@ export default function TimerPage() {
                     Resume
                   </button>
                   <button type="button" className="btn btn-danger" onClick={() => call("/api/timer/stop")}>
-                    Stop &amp; Bank
+                    Stop
                   </button>
                 </>
               )}
             </div>
 
             {!session && (
-              <p className="muted text-xs">No active timer. Wind up to begin a focus session.</p>
+              <p className="muted text-xs">No active timer. Press Start to begin a focus session.</p>
             )}
           </div>
 
           {/* Side: manual entry */}
           <div className="card flex flex-col gap-3 lg:col-span-4">
-            <h2 className="h2">Ledger by Hand</h2>
+            <h2 className="h2">Manual entry</h2>
             <p className="muted text-xs">
               Record a session after the fact. Times are validated on save.
             </p>
@@ -244,7 +244,7 @@ export default function TimerPage() {
               </button>
             </form>
             <Link href="/timesheet" className="text-xs text-muted underline underline-offset-2">
-              View the Field Ledger →
+              View the Timesheet →
             </Link>
           </div>
         </div>

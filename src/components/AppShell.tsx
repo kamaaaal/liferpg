@@ -7,14 +7,14 @@ import { useSession, signOut } from "next-auth/react";
 import { DecorBadge } from "@/components/DecorBadge";
 
 const navItems = [
-  { href: "/", label: "Desk Chamber", icon: "🪵" },
+  { href: "/", label: "Home", icon: "🪵" },
   { href: "/tasks", label: "Tasks", icon: "📋" },
   { href: "/projects", label: "Projects", icon: "🌿" },
   { href: "/schedule", label: "Schedule", icon: "🗓️" },
-  { href: "/timer", label: "Brass Pomodoro", icon: "⏳" },
-  { href: "/timesheet", label: "Time Ledger", icon: "📖" },
-  { href: "/activity", label: "Activity", icon: "📓" },
-  { href: "/reports", label: "Almanac", icon: "📜" },
+  { href: "/timer", label: "Timer", icon: "⏳" },
+  { href: "/timesheet", label: "Timesheet", icon: "📖" },
+  { href: "/activity", label: "Activity Log", icon: "📓" },
+  { href: "/reports", label: "Reports", icon: "📜" },
 ];
 
 function cycleWord(date: Date): string {
